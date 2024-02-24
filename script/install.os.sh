@@ -26,6 +26,7 @@ fi
 # 安装桌面软件
 echo '* 安装lightdm、bspwm及组件'
 sudo pacman -S lightdm lightdm-gtk-greeter # lightdm会默认加载light-gtk-greeter,如果不安装，启动lightdm会报错，也不会显示登录界面
+sudo systemctl enable lightdm
 sudo pacman -S bspwm # 执行上步之后，可以显示登录界面，但是无法登录，会显示错误无法找到默认session，应该是寻找/usr/share/xsessions目录下的条目，所以需要安装一个session,如bspwm
 sudo pacman -S sxhkd picom polybar plank alacritty rofi feh xdo # 部分组件
 
@@ -81,7 +82,7 @@ sudo ln -sf ~/arch-install/xorg.conf.d/30-touchpad.conf /etc/X11/xorg.conf.d/30-
 
 
 # **********启动*********
-sudo systemctl enable --now lightdm
+reboot
 # 拼音输入法，运行config tools,添加pinyin
 
 # 其他软件
