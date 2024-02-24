@@ -24,8 +24,3 @@ pacstrap -K /mnt base linux linux-firmware networkmanager sudo vi vim
 # 生成fstab文件
 echo '* 生成fstab文件'
 genfstab -U /mnt >> /mnt/etc/fstab
-
-# 拷贝arch-install到/mnt
-cp ~/arch-install /mnt
-
-# arch-chroot /mnt

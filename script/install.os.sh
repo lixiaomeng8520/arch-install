@@ -7,7 +7,7 @@ export https_proxy=http://192.168.10.3:7890
 
 # 安装工具
 echo '* install tools'
-sudo pacman -S chrony which rsync openssh less pacman-contrib bash-completion
+sudo pacman -S chrony which rsync openssh less pacman-contrib bash-completion base-devel
 sudo systemctl enable --now chronyd
 
 # 创建workspace

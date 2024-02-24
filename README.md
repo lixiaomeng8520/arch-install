@@ -14,11 +14,15 @@ echo '* 连接网络'
 iwctl device list # 列出无线网卡
 iwctl station wlan0 connect hannah5 # 连接
 
+cd
+
 wget https://raw.githubusercontent.com/lixiaomeng8520/arch-install/master/script/install.usb1.sh
 wget https://raw.githubusercontent.com/lixiaomeng8520/arch-install/master/script/install.usb2.sh
 
 sh install.usb1.sh
 cp install.usb2.sh /mnt
+
+arch-chroot /mnt
 ```
 
 ## usb - inner
