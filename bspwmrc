@@ -1,0 +1,109 @@
+#! /bin/sh
+
+# 示例：
+
+# pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d 1 2 3 4
+
+bspc config border_width         0
+bspc config window_gap           8
+# bspc config top_padding          30
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# bspc rule: 设置一些规则
+# -a: 添加
+# Chromium: window class
+# desktop='^2'：设置桌面
+# state=floating：设置模式，浮动、tile、全屏等
+# follow=on：焦点跟随窗口，即使到其他桌面
+# focus=on：设置焦点
+# manage=on|off：设置该窗口是否被bspwm管控，设置为on，plank才能被唤醒
+# layer=below|normal|above：设置层级
+
+# bspc rule -a Gimp desktop='^8' state=floating follow=on
+# bspc rule -a Chromium desktop='^2'
+# bspc rule -a mplayer2 state=floating
+# bspc rule -a Kupfer.py focus=on
+# bspc rule -a Screenkey manage=off
+
+
+
+
+
+
+#bspc rule -a 'Plank' layer=above manage=on border=off # manage=on才能唤醒,且能被super+w关闭,manage应该是被bspwm管理
+#bspc rule -a 'Polybar' layer=above manage=on
+# bspc rule -a 'Plank' layer=above manage=on
+
+#bspc rule -a 'Code' layer=below
+
+# bspc rule -a 'Alacritty' state=floating
+bspc rule -a 'Thunar' state=floating
+bspc rule -a 'Pavucontrol' state=floating
+bspc rule -a 'Blueman-manager' state=floating
+bspc rule -a 'feh' state=floating
+bspc rule -a 'Bytedance-feishu':*:* state=floating
+# bspc rule -a '*' state=floating layer=normal
+# bspc rule -a 'Google-chrome' desktop=2 follow=true
+# bspc rule -a 'Code' desktop=3 follow=true
+# bspc rule -a 'jetbrains-idea' desktop=4 follow=true
+# bspc rule -a 'Typora' desktop=5 follow=true
+# bspc rule -a 'Feishu' desktop=6 follow=true
+# bspc rule -a 'Virt-manager' desktop=7 follow=true
+# bspc rule -a 'Bytedance-feishu' state=floating
+# bspc rule -a 'Pavucontrol' state=floating
+# bspc rule -a 'Blueman-manager' state=floating
+
+##### my
+# xrandr --output eDP-1 --auto
+feh --bg-fill $HOME/workspace/doc/arch/wallpaper/backiee-125928-landscape.jpg
+
+pkill -9 -f picom
+pkill -9 -f fcitx5
+pkill -9 -f sxhkd
+polybar-msg cmd quit
+pkill -9 -f plank
+
+
+# 这里启动的窗口不受bspwm管控，除非设置manage=on
+export HELLO=hello
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+picom &
+fcitx5 &
+sxhkd &
+polybar &
+plank &
+
+
+# 提升Polybar和Plank的层级
+# https://www.reddit.com/r/bspwm/comments/gb25gx/it_is_possible_to_raise_polybar_to_be_above_all/
+bspc subscribe node_add | while read -r event; do
+    xdo raise -N Polybar
+    xdo raise -N Plank
+done &
+bspc subscribe node_state | while read -r event; do
+    if echo $event | grep 'fullscreen on' > /dev/null; then
+        xdo lower -N Polybar
+        xdo lower -N Plank
+    elif echo $event | grep 'fullscreen off' > /dev/null; then
+        xdo raise -N Polybar
+        xdo raise -N Plank
+    fi
+done &
+
+
+# 注册desktop_focus事件，特定桌面打开特定窗口
+# bspc subscribe desktop_focus | while read -r event
+# do
+#     desktop_id=$(echo $event | awk '{print $3}')
+#     destop_name=$(bspc query -D -d $desktop_id --names)
+#     if [[ $destop_name == '1' ]]; then
+#         google-chrome-stable > /dev/null
+#     fi
+# done &
