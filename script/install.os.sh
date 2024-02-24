@@ -17,6 +17,7 @@ mkdir -p ~/workspace
 # 安装paru
 echo '* 安装paru'
 if ! which paru; then
+    rm -rf ~/workspace/paru
     git clone https://aur.archlinux.org/paru.git ~/workspace/paru
     cd ~/workspace/paru
     makepkg -si
