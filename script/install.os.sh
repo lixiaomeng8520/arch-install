@@ -5,28 +5,10 @@ set -e
 export http_proxy=http://192.168.10.3:7890
 export https_proxy=http://192.168.10.3:7890
 
-# 配置网络
-echo '* config network'
-sudo systemctl enable --now NetworkManager
-nmtui
-# TODO: 判断网络
-if ! ping 114.114.114.114 -c 4 ; then
-    echo 'network error'
-    exit 1
-fi
-
-# 配置源, TODO：sudo不起作用
-echo '* config mirrorlist'
-#sudo echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
-
 # 安装工具
 echo '* install tools'
-sudo pacman -S chrony which rsync openssh less pacman-contrib bash-completion git base-devel
+sudo pacman -S chrony which rsync openssh less pacman-contrib bash-completion
 sudo systemctl enable --now chronyd
-
-# 设置git
-git config --global http.proxy http://192.168.10.3
-git config --global https.proxy http://192.168.10.3
 
 # 创建workspace
 echo '* 创建workspace'
@@ -35,7 +17,6 @@ mkdir -p ~/workspace
 # 安装paru
 echo '* 安装paru'
 if ! which paru; then
-    sudo pacman -S git base-devel
     git clone https://aur.archlinux.org/paru.git ~/workspace/paru
     cd ~/workspace/paru
     makepkg -si
@@ -53,20 +34,20 @@ sudo pacman -S noto-fonts noto-fonts-emoji ttf-cascadia-code-nerd
 paru noto-fonts-sc
 
 # 输入法
-echo '* 安装输入法'
+echo '* install fcitx5'
 sudo pacman -S fcitx5-im fcitx5-chinese-addons
 
 # 声音
-echo '* 安装声音'
+echo '* install audio'
 sudo pacman -S pipewire-alsa alsa-utils
 
 # 蓝牙
-echo '* 安装蓝牙'
+echo '* install bluetooth'
 sudo pacman -S blueman pipewire-pulse
 sudo systemctl enable --now bluetooth
 
 # vnc
-echo '* 安装tigervnc'
+echo '* install tigervnc'
 sudo pacman -S tigervnc # 生成vnc密码，默认~/.vnc/passwd
 vncpasswd
 
