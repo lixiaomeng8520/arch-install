@@ -41,7 +41,8 @@ sudo pacman -S fcitx5-im fcitx5-chinese-addons
 
 # 声音
 echo '* install audio'
-sudo pacman -S pipewire-alsa alsa-utils
+# sudo pacman -S pipewire-alsa alsa-utils
+sudo pacman -S pulsemixer
 
 # 蓝牙
 echo '* install bluetooth'

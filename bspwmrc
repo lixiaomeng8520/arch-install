@@ -1,11 +1,11 @@
 #! /bin/sh
 
-export http_proxy=http://127.0.0.1:7890
-export https_proxy=http://127.0.0.1:7890
-export HELLO=hello
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
+#export http_proxy=http://127.0.0.1:7890
+#export https_proxy=http://127.0.0.1:7890
+#export HELLO=hello
+#export GTK_IM_MODULE=fcitx
+#export QT_IM_MODULE=fcitx
+#export XMODIFIERS=@im=fcitx
 
 # pgrep -x sxhkd > /dev/null || sxhkd &
 
